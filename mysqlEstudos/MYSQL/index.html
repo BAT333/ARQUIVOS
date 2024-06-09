@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário de Cadastro</title>
+</head>
+<body>
+
+<h2>Cadastro</h2>
+
+<form id="cadastroForm">
+  <label for="cpf">CPF:</label><br>
+  <input type="text" id="cpf" name="cpf"><br>
+  
+  <label for="nome">Nome:</label><br>
+  <input type="text" id="nome" name="nome"><br>
+  
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email"><br>
+  
+  <label for="telefone">Telefone:</label><br>
+  <input type="text" id="telefone" name="telefone"><br><br>
+  
+  <input type="submit" value="Cadastrar">
+  <input type="button" value="Cancelar">
+</form>
+
+<script>
+document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita que o formulário seja enviado
+
+    // Captura os valores dos campos do formulário
+    var cpf = document.getElementById('cpf').value;
+    var nome = document.getElementById('nome').value;
+    var email = document.getElementById('email').value;
+    var telefone = document.getElementById('telefone').value;
+
+    // Cria um objeto JSON com os valores capturados
+    var dadosCadastro = {
+        "cpf": cpf,
+        "nome": nome,
+        "email": email,
+        "telefone": telefone
+    };
+
+    // Exibe os dados em formato JSON no console (para fins de demonstração)
+    console.log(JSON.stringify(dadosCadastro));
+
+    // Você pode fazer o que quiser com os dados aqui, como enviá-los para um servidor via AJAX
+});
+</script>
+
+</body>
+</html>

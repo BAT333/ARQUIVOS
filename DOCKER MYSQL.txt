@@ -1,0 +1,36 @@
+PRIMEIRO DE TUDO SE VC TIVER MYSQL INSTALADO
+FAÇA ISSO
+(pressionando Win + R, digitei services.msc, ENTER), localizei o serviço do MySQL, que estava em Execução e o interrompi
+
+DEPOIS CRIA ARQUIVO DOCKER 
+ELE TEM NOMECLATURA QUE É 
+NOME-DOCKER-COMPOSE.yml
+
+
+ficara assim 
+version: '3.1'
+
+services:
+  db:
+    image: mysql
+    volumes:
+      - dados_dockers:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: bp1234
+      MYSQL_DATABASE: client_db
+
+
+volumes:
+  dados_dockers:
+
+-----------------------------------------------------------------------
+para iniciar ele, primeiro vc localiza onde ele se encontra
+cd ate achar
+meu fico assim 
+ cd \Users\rafae\IdeaProjects\testAPi\src\main\java\com\testSpring\testAPi\docker
+
+
+depois vc inicia deste jeito
+docker-compose -f mysql-docker-compose.yml up -d

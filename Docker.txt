@@ -1,0 +1,505 @@
+----------------------------------------------------------------------------COMANDOS BASICOS---------------------------------------------------------------------------------------
+Docker é uma plataforma que facilita a criação, implantação e execução de aplicações utilizando contêineres. Contêineres permitem empacotar uma aplicação com todas as suas dependências, garantindo que ela rode de maneira consistente em qualquer ambiente. Aqui está um resumo dos principais conceitos e comandos que você precisa saber sobre Docker:
+
+Conceitos Básicos
+Imagem (Image): Uma imagem Docker é um template imutável que contém tudo o que é necessário para rodar uma aplicação, incluindo o código, runtime, bibliotecas e configurações. Imagens são construídas a partir de um arquivo chamado Dockerfile.
+
+Contêiner (Container): Um contêiner é uma instância em execução de uma imagem. Ele é leve e portátil, e pode ser executado em qualquer sistema que tenha o Docker instalado.
+
+Dockerfile: Um arquivo de texto com instruções para construir uma imagem Docker. Cada linha no Dockerfile representa um comando que é executado durante o processo de build da imagem.
+
+Registro (Registry): Um serviço onde as imagens Docker são armazenadas e distribuídas. O Docker Hub é o registro público mais conhecido, mas existem registros privados também.
+
+Principais Comandos do Docker
+docker run: O comando docker run cria e executa um contêiner a partir de uma imagem. Ele pode incluir várias opções, como mapeamento de portas e montagem de volumes.
+
+sh
+Copiar código
+docker run [opções] <imagem>
+Exemplos:
+
+sh
+Copiar código
+docker run hello-world           # Executa um contêiner simples que imprime "Hello, World!"
+docker run -d -p 80:80 nginx     # Executa o NGINX em segundo plano e mapeia a porta 80 do host para a porta 80 do contêiner
+docker build: O comando docker build cria uma imagem a partir de um Dockerfile.
+
+sh
+Copiar código
+docker build -t <nome-da-imagem> <caminho-do-dockerfile>
+Exemplo:
+
+sh
+Copiar código
+docker build -t minha-imagem:1.0 .
+docker pull: O comando docker pull baixa uma imagem do registro (como o Docker Hub) para o seu sistema local.
+
+sh
+Copiar código
+docker pull <imagem>
+Exemplo:
+
+sh
+Copiar código
+docker pull ubuntu:20.04
+docker push: O comando docker push envia uma imagem do seu sistema local para um registro.
+
+sh
+Copiar código
+docker push <nome-da-imagem>
+docker ps: O comando docker ps lista todos os contêineres em execução. Use a opção -a para listar todos os contêineres, incluindo os que estão parados.
+
+sh
+Copiar código
+docker ps
+docker ps -a
+docker stop e docker start: O comando docker stop para um contêiner em execução, e docker start inicia um contêiner parado.
+
+sh
+Copiar código
+docker stop <id-do-contêiner>
+docker start <id-do-contêiner>
+docker rm: O comando docker rm remove um contêiner parado.
+
+sh
+Copiar código
+docker rm <id-do-contêiner>
+docker rmi: O comando docker rmi remove uma imagem do sistema local.
+
+sh
+Copiar código
+docker rmi <id-da-imagem>
+docker logs: O comando docker logs exibe os logs de um contêiner.
+
+sh
+Copiar código
+docker logs <id-do-contêiner>
+Exemplo de Dockerfile
+Aqui está um exemplo simples de um Dockerfile para uma aplicação Node.js:
+
+Dockerfile
+Copiar código
+# Use a imagem base do Node.js
+FROM node:14
+
+# Crie e defina o diretório de trabalho no contêiner
+WORKDIR /app
+
+# Copie os arquivos package.json e package-lock.json para o contêiner
+COPY package*.json ./
+
+# Instale as dependências
+RUN npm install
+
+# Copie o restante do código da aplicação para o contêiner
+COPY . .
+
+# Exponha a porta em que a aplicação vai rodar
+EXPOSE 3000
+
+# Comando para rodar a aplicação
+CMD ["node", "app.js"]
+Para construir e rodar a imagem criada com este Dockerfile:
+
+sh
+Copiar código
+docker build -t minha-app .
+docker run -p 3000:3000 minha-app
+Esse resumo cobre os conceitos e comandos essenciais para começar a usar o Docker. A prática e a leitura da documentação oficial do Docker irão aprofundar ainda mais seu conhecimento e habilidade com essa ferramenta.
+
+--------------------------------------------------------------------------------------SIGINIFICADOS DAS LETRAS-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Opções Comuns do docker run
+-d (detached): Executa o contêiner em segundo plano (modo "desanexado"). Sem essa opção, o contêiner roda no modo interativo, o que significa que ele toma conta do terminal até que seja parado.
+
+sh
+Copiar código
+docker run -d <imagem>
+-p (port mapping): Mapeia uma porta do host para uma porta do contêiner. A sintaxe é hostPort:containerPort.
+
+sh
+Copiar código
+docker run -p 8080:80 <imagem>
+Isso mapeia a porta 8080 do host para a porta 80 do contêiner.
+
+-v (volume): Monta um volume. Volumes são usados para persistir dados e compartilhar arquivos entre o host e o contêiner.
+
+sh
+Copiar código
+docker run -v /path/no/host:/path/no/container <imagem>
+--name: Atribui um nome ao contêiner, facilitando a sua identificação.
+
+sh
+Copiar código
+docker run --name meu-conteiner <imagem>
+-e (environment variable): Define variáveis de ambiente no contêiner.
+
+sh
+Copiar código
+docker run -e "ENV_VAR=value" <imagem>
+--rm: Remove automaticamente o contêiner quando ele parar.
+
+sh
+Copiar código
+docker run --rm <imagem>
+Exemplo Completo
+Aqui está um exemplo que combina várias dessas opções:
+
+sh
+Copiar código
+docker run -d -p 8080:80 -v /meu/diretorio:/app --name meu-conteiner -e "ENV_VAR=value" --rm nginx
+Este comando faz o seguinte:
+
+Executa o contêiner em segundo plano (-d).
+Mapeia a porta 8080 do host para a porta 80 do contêiner (-p 8080:80).
+Monta o diretório /meu/diretorio do host no diretório /app dentro do contêiner (-v /meu/diretorio:/app).
+Nomeia o contêiner como "meu-conteiner" (--name meu-conteiner).
+Define a variável de ambiente ENV_VAR com o valor value (-e "ENV_VAR=value").
+Remove o contêiner automaticamente quando ele parar (--rm).
+Essas opções permitem configurar e controlar o comportamento do contêiner de forma flexível e eficiente.
+----------------------------------------------------------------------------EXPLICAÇÃO SOBRE ALGUMAS FUNÇÃO-----------------------------------------------------------------------------------------------------------------------------------------------------
+Claro! Aqui estão explicações rápidas sobre algumas outras opções e comandos úteis no Docker, como --sleep, --restart, -it, e mais:
+
+Opções e Comandos Adicionais do docker run
+-it (interactive + tty): Combina duas opções, -i e -t, para permitir que você interaja com o contêiner. -i mantém a entrada padrão aberta (input), mesmo que você não esteja anexado ao contêiner, e -t aloca um pseudo-TTY, essencialmente dando um terminal interativo.
+
+sh
+Copiar código
+docker run -it <imagem> /bin/bash
+Esse comando inicia um contêiner e abre um terminal interativo com bash.
+
+--restart: Define a política de reinício de um contêiner. As políticas podem ser:
+
+no: O contêiner não será reiniciado (padrão).
+on-failure: Reinicia o contêiner somente se ele falhar (não retornar código de saída 0).
+always: Sempre reinicia o contêiner, independentemente do código de saída.
+unless-stopped: Reinicia o contêiner sempre, exceto se ele for parado manualmente.
+sh
+Copiar código
+docker run --restart always <imagem>
+--sleep: O comando sleep não é uma opção do docker run, mas é frequentemente usado em scripts de contêineres para introduzir uma pausa. Por exemplo, você pode usar sleep dentro de um Dockerfile ou em um comando executado no contêiner para esperar por um determinado período de tempo.
+
+sh
+Copiar código
+docker run -d <imagem> /bin/sh -c "sleep 30 && echo 'Done sleeping'"
+Nesse exemplo, o contêiner irá dormir por 30 segundos antes de imprimir "Done sleeping".
+
+Exemplos Combinados
+Para ilustrar o uso de várias dessas opções, aqui está um exemplo mais completo:
+
+sh
+Copiar código
+docker run -d -p 8080:80 --name meu-conteiner --restart unless-stopped nginx
+Este comando:
+
+Executa o contêiner em segundo plano (-d).
+Mapeia a porta 8080 do host para a porta 80 do contêiner (-p 8080:80).
+Nomeia o contêiner como "meu-conteiner" (--name meu-conteiner).
+Define a política de reinício para "unless-stopped" (--restart unless-stopped), reiniciando o contêiner automaticamente, a menos que ele seja parado manualmente.
+Uso do sleep em Dockerfile
+Se você quiser usar o comando sleep dentro de um Dockerfile, ele pode ser útil para garantir que certas etapas sejam executadas após uma pausa. Aqui está um exemplo:
+
+Dockerfile
+Copiar código
+FROM ubuntu:latest
+
+# Instala alguma coisa
+RUN apt-get update && apt-get install -y some-package
+
+# Adiciona um tempo de espera
+CMD sleep 10 && echo "Done sleeping" && some-command
+Neste Dockerfile:
+
+Após a instalação de um pacote, o contêiner vai dormir por 10 segundos (CMD sleep 10).
+Após o tempo de espera, ele vai imprimir "Done sleeping" e executar some-command.
+Essas opções e comandos adicionais permitem uma maior flexibilidade e controle sobre o comportamento dos contêineres Docker em diferentes cenários.
+-----------------------------------------------------------------------------CRIAÇÃO DE IMAGENS-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Criar uma imagem no Docker envolve escrever um Dockerfile que especifica os passos necessários para construir essa imagem. Vamos ver como fazer isso em dois cenários: criando uma imagem do zero e criando uma imagem a partir de uma imagem pré-existente, como a imagem Node.js.
+
+Criando uma Imagem Docker do Zero
+Instale o Docker: Primeiro, certifique-se de que o Docker está instalado em sua máquina.
+
+Escreva o Dockerfile: Crie um arquivo chamado Dockerfile no diretório do projeto.
+
+Exemplo de Dockerfile do Zero
+Vamos criar uma imagem que executa um simples script Bash. Crie um diretório chamado docker-sample e dentro dele, crie o arquivo Dockerfile com o seguinte conteúdo:
+
+Dockerfile
+Copiar código
+# Use uma imagem base mínima
+FROM scratch
+
+# Adicione um arquivo script.sh ao contêiner
+COPY script.sh /script.sh
+
+# Defina o comando a ser executado quando o contêiner iniciar
+CMD ["/script.sh"]
+Crie o script: No mesmo diretório, crie um arquivo chamado script.sh com o seguinte conteúdo:
+sh
+Copiar código
+#!/bin/sh
+echo "Olá, mundo! Este é um contêiner Docker criado do zero."
+Build da Imagem: Navegue até o diretório docker-sample e execute o comando para construir a imagem.
+sh
+Copiar código
+docker build -t minha-imagem-do-zero .
+Run o Contêiner: Execute o contêiner a partir da imagem criada.
+sh
+Copiar código
+docker run minha-imagem-do-zero
+Se tudo estiver correto, você verá a mensagem "Olá, mundo! Este é um contêiner Docker criado do zero."
+
+Criando uma Imagem Docker a partir de uma Imagem Pré-existente
+Vamos criar uma imagem baseada na imagem oficial do Node.js e adicionar uma aplicação Node.js simples.
+
+Crie o Diretório do Projeto: Crie um diretório chamado node-app e navegue até ele.
+
+Escreva o Dockerfile: No diretório node-app, crie um arquivo chamado Dockerfile com o seguinte conteúdo:
+
+Dockerfile
+Copiar código
+# Use a imagem oficial do Node.js como imagem base
+FROM node:14
+
+# Crie e defina o diretório de trabalho no contêiner
+WORKDIR /usr/src/app
+
+# Copie o arquivo package.json e package-lock.json para o diretório de trabalho
+COPY package*.json ./
+
+# Instale as dependências da aplicação
+RUN npm install
+
+# Copie o restante do código da aplicação para o diretório de trabalho
+COPY . .
+
+# Exponha a porta em que a aplicação vai rodar
+EXPOSE 8080
+
+# Defina o comando a ser executado quando o contêiner iniciar
+CMD ["node", "app.js"]
+Crie os Arquivos da Aplicação: No mesmo diretório, crie os seguintes arquivos:
+package.json:
+json
+Copiar código
+{
+  "name": "node-app",
+  "version": "1.0.0",
+  "description": "Uma aplicação Node.js simples",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
+app.js:
+javascript
+Copiar código
+const express = require('express');
+const app = express();
+const port = 8080;
+
+app.get('/', (req, res) => {
+  res.send('Olá, mundo! Esta é uma aplicação Node.js rodando em um contêiner Docker.');
+});
+
+app.listen(port, () => {
+  console.log(`Aplicação rodando na porta ${port}`);
+});
+Build da Imagem: Navegue até o diretório node-app e execute o comando para construir a imagem.
+sh
+Copiar código
+docker build -t minha-app-node .
+Run o Contêiner: Execute o contêiner a partir da imagem criada.
+sh
+Copiar código
+docker run -p 8080:8080 minha-app-node
+Se tudo estiver correto, você verá a mensagem no terminal dizendo que a aplicação está rodando na porta 8080. Você pode acessar http://localhost:8080 no seu navegador e verá a mensagem "Olá, mundo! Esta é uma aplicação Node.js rodando em um contêiner Docker."
+
+Resumo dos Passos
+Criando uma Imagem do Zero:
+
+Crie um diretório de projeto.
+Escreva um Dockerfile começando com FROM scratch.
+Adicione os arquivos necessários.
+Construa a imagem com docker build.
+Execute o contêiner com docker run.
+Criando uma Imagem Baseada em Node.js:
+
+Crie um diretório de projeto.
+Escreva um Dockerfile começando com FROM node.
+Adicione os arquivos da aplicação (package.json, app.js).
+Construa a imagem com docker build.
+Execute o contêiner com docker run.
+Estes exemplos cobrem o processo de criação de imagens Docker tanto do zero quanto a partir de uma imagem base pré-existente, como Node.js.
+-------------------------------------------------------------------------------CRIAÇÃO DE IMAGENS MAIS AVAÇADO-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Claro, vamos abordar um exemplo mais complexo de criação de uma imagem Docker do zero, utilizando uma aplicação mais elaborada e configurando um ambiente personalizado. Vamos criar uma aplicação web simples com Python utilizando o framework Flask.
+
+Exemplo Complexo de Imagem Docker Criada do Zero
+Estrutura do Projeto
+Crie um diretório chamado flask-app.
+Dentro do diretório flask-app, crie os seguintes arquivos e diretórios:
+css
+Copiar código
+flask-app/
+│
+├── Dockerfile
+├── requirements.txt
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   └── templates/
+│       └── index.html
+Arquivo Dockerfile
+No diretório flask-app, crie um arquivo chamado Dockerfile com o seguinte conteúdo:
+
+Dockerfile
+Copiar código
+# Use a imagem base mínima
+FROM python:3.9-slim
+
+# Defina o diretório de trabalho no contêiner
+WORKDIR /app
+
+# Copie os arquivos de dependências para o contêiner
+COPY requirements.txt requirements.txt
+
+# Instale as dependências
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copie o restante da aplicação para o diretório de trabalho
+COPY app/ .
+
+# Exponha a porta em que a aplicação vai rodar
+EXPOSE 5000
+
+# Defina o comando a ser executado quando o contêiner iniciar
+CMD ["python", "main.py"]
+Arquivo requirements.txt
+No diretório flask-app, crie um arquivo chamado requirements.txt com o seguinte conteúdo:
+
+txt
+Copiar código
+Flask==2.0.1
+Diretório app e Arquivos de Código
+Dentro do diretório app, crie os seguintes arquivos:
+
+__init__.py (arquivo vazio para tornar o diretório um pacote Python)
+
+main.py:
+
+python
+Copiar código
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+templates/index.html:
+html
+Copiar código
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask App</title>
+</head>
+<body>
+    <h1>Olá, mundo! Esta é uma aplicação Flask rodando em um contêiner Docker.</h1>
+</body>
+</html>
+Construindo a Imagem
+Navegue até o diretório flask-app e execute o comando para construir a imagem:
+
+sh
+Copiar código
+docker build -t flask-app .
+Executando o Contêiner
+Execute o contêiner a partir da imagem criada:
+
+sh
+Copiar código
+docker run -p 5000:5000 flask-app
+Agora você pode acessar http://localhost:5000 no seu navegador e ver a mensagem "Olá, mundo! Esta é uma aplicação Flask rodando em um contêiner Docker."
+
+Explicação dos Passos
+Imagem Base Mínima: Utilizamos python:3.9-slim como base para ter um ambiente Python leve.
+Diretório de Trabalho: Definimos /app como o diretório de trabalho dentro do contêiner.
+Instalação de Dependências: Copiamos o arquivo requirements.txt e instalamos as dependências usando pip.
+Cópia do Código da Aplicação: Copiamos todo o diretório app para o diretório de trabalho no contêiner.
+Exposição de Porta: Exponhamos a porta 5000 onde a aplicação Flask vai rodar.
+Comando de Inicialização: Definimos o comando CMD ["python", "main.py"] para iniciar a aplicação Flask quando o contêiner for iniciado.
+Adicionando Variáveis de Ambiente
+Para tornar o exemplo ainda mais complexo, podemos adicionar variáveis de ambiente para configurar a aplicação.
+
+Modificando o Dockerfile
+Adicione a linha para definir uma variável de ambiente:
+
+Dockerfile
+Copiar código
+# Use a imagem base mínima
+FROM python:3.9-slim
+
+# Defina o diretório de trabalho no contêiner
+WORKDIR /app
+
+# Defina variáveis de ambiente
+ENV FLASK_ENV=development
+
+# Copie os arquivos de dependências para o contêiner
+COPY requirements.txt requirements.txt
+
+# Instale as dependências
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copie o restante da aplicação para o diretório de trabalho
+COPY app/ .
+
+# Exponha a porta em que a aplicação vai rodar
+EXPOSE 5000
+
+# Defina o comando a ser executado quando o contêiner iniciar
+CMD ["python", "main.py"]
+Modificando main.py para Usar a Variável de Ambiente
+Atualize o main.py para usar a variável de ambiente:
+
+python
+Copiar código
+import os
+from flask import Flask, render_template
+
+app = Flask(__name__)
+app.config['ENV'] = os.getenv('FLASK_ENV', 'production')
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+Reconstruindo e Executando o Contêiner
+Reconstrua a imagem com as novas configurações:
+
+sh
+Copiar código
+docker build -t flask-app .
+Execute o contêiner:
+
+sh
+Copiar código
+docker run -p 5000:5000 flask-app
+Agora a aplicação Flask estará rodando no modo de desenvolvimento, definido pela variável de ambiente FLASK_ENV.
+
+Conclusão
+Este exemplo mais complexo demonstra como criar uma imagem Docker do zero, configurar um ambiente Python com Flask, adicionar variáveis de ambiente e executar a aplicação em um contêiner Docker. Estes passos cobrem muitos dos aspectos práticos e avançados de criação e configuração de imagens Docker para aplicações mais elaboradas
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+EM JAVA VAI AJUDAR MUITO POR QUE VAI FAZER ISOLAMENTO DA APLICAÇÃO AJUDANDO A FAZER MUDANÇA ATUALIZAÇÃO TUDO MAIS SE AFETAR AS OUTRAS PARTE
+POR QUE VAI ESTA EM AMBIETE SEPARADO EM CONTENEIS
+independente de qualquer amn
