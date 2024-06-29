@@ -1,0 +1,48 @@
+Atacando a complexidade no coração do software
+
+A complexidade que chamamos de acidental, que são as dívidas técnicas que adquirimos ao longo
+do tempo, a dificuldade de implementar coisas no código legado, a dificuldade de infraestrutura,
+frameworks, banco de dados. Isso é uma complexidade acidental.
+
+Mas o ideal é atacarmos a complexidade essencial. Qual é a complexidade essencial? É a
+complexidade de negócio, porque é o motivo real pelo qual alguém vai pagar a você,
+pessoa desenvolvedora, ou a uma empresa, para desenvolver o software para ela. Ela quer
+resolver, ela quer ter o fluxo dela resolvido, o negócio dela ali, da maneira que ela precisa.
+
+
+O que é Linguagem Ubíqua?---------------------------
+
+Linguagem ubíqua pode parecer um termo complexo de se compreender, mas outro termo também
+utilizado para identificar este tipo de comunicação, nos auxilia em uma melhor compreensão:
+Linguagem Onipresente. Linguagem Onipresente é essencialmente os termos, palavras e definições
+utilizadas por todo o domínio do projeto.
+
+
+
+OQ QUER DIZER QUE TEM SER UMA TERMOS DE IGUAL PARA IGUAL
+VAMOS SUPOR DEVS TEM LINGUAGEM E OS GERENTES DE NEGOCIO OUTRA
+
+Linguagem Ubíqua É UNIÃO DOS DOIS
+
+TIPO CODE CHELLA TEM UM TIPO QUE SE CHAMA FORMATO DE INGRESSO MAS NA APLICAÇÃO FRONT E PARA NEGOCIO
+SE CHAMA SETORES
+UNIÃO DESTE DOIS TEM QUE SER MESMO PARA NEGOCIO E PARA OS DEVS
+
+Classes anêmicas--------------------------------
+
+
+SÃO CLASSES QUE SO TEM GET E SET, NÃO SÃO CLASSE DE DOMAIN MAS CLASSE ANEMICAS
+CLASSES DE DOMAIN SÃO CLASSES APLICA REGRA DE DOMINIO REGRAS DE NEGOCIOS, NORMALMENTE TEM SO GET
+
+REGRA DE NEGOCIO FICA NO DOMAIN
+
+EX:
+public void incluiNovoTipoIngressoAoEvento (TipoIngresso tipoIngresso){
+        this.tipoIngressos.add(tipoIngresso);
+    }
+
+
+Subdomínios e contextos delimitados------------------------------------------
+
+
+

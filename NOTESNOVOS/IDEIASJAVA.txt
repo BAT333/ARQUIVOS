@@ -1,0 +1,4 @@
+Coisa para trabalhar com arquivo json
+Trabalhar arquivos cvs 
+pdf 
+traduz de uma liguagem para qualquer outra

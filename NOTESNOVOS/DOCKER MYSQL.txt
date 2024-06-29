@@ -1,0 +1,203 @@
+PRIMEIRO DE TUDO SE VC TIVER MYSQL INSTALADO
+FAÇA ISSO
+(pressionando Win + R, digitei services.msc, ENTER), localizei o serviço do MySQL, que estava em Execução e o interrompi
+
+DEPOIS CRIA ARQUIVO DOCKER 
+ELE TEM NOMECLATURA QUE É 
+NOME-DOCKER-COMPOSE.yml
+
+
+ficara assim 
+version: '3.1'
+
+services:
+  db:
+    image: mysql
+    volumes:
+      - dados_dockers:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: bp1234
+      MYSQL_DATABASE: client_db
+
+
+volumes:
+  dados_dockers:
+
+-----------------------------------------------------------------------
+para iniciar ele, primeiro vc localiza onde ele se encontra
+cd ate achar
+meu fico assim 
+ cd \Users\rafae\IdeaProjects\testAPi\src\main\java\com\testSpring\testAPi\docker
+
+
+depois vc inicia deste jeito
+docker-compose -f mysql-docker-compose.yml up -d
+
+so dar docker stop
+
+
+-----------------------------------------COMO COLOCAR DOCKER NA APLICAÇÃO, PARA INTALAR AUTOMATICAMENTE JAVA E MYSQL ETC-------------------------------------------------------------------------------
+PRIMEIRO TEM CRIAR DIRETORIO RAIZ UMA PASTA CHAMADA,DOCKER FILE
+criar dockerfile
+com esse nome, Dockerfile
+
+
+nesse arquivo vai explicar qual java intalar, oq deve ser rodado, oq deve ser copiado etc
+FROM eclipse-temurin:17-jdk-alpine as builder
+WORKDIR application
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+RUN ./mvnw package -DskipTests
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} application.jar
+RUN java -Djarmode=layertools -jar application.jar extract
+
+
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR application
+COPY --from=builder application/dependencies/ ./
+COPY --from=builder application/spring-boot-loader/ ./
+COPY --from=builder application/snapshot-dependencies/ ./
+COPY --from=builder application/application/ ./
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]FROM eclipse-temurin:17-jdk-alpine as builder
+WORKDIR application
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+RUN ./mvnw package -DskipTests
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} application.jar
+RUN java -Djarmode=layertools -jar application.jar extract
+
+
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR application
+COPY --from=builder application/dependencies/ ./
+COPY --from=builder application/spring-boot-loader/ ./
+COPY --from=builder application/snapshot-dependencies/ ./
+COPY --from=builder application/application/ ./
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+PARA CRIAR UMA IMAGEM DA aplicação NO DOCKER
+
+FAZENDO ASSIM
+docker build -t darUmaTag/nomeDaAplicação:1.0 . 
+ponto para ser diretorio raiz PARA INTEGRA DIRETORIO RAIZ DA APLICAÇÃO
+
+
+
+
+
+
+
+
+PARA RODA JAVA, POR LINHA DE COMANDO, RODANDO EXECUTAVEL------------------------------------------
+JAVA -JAR TARGET/NOMEDAAPLICAÇÃOEMPONTOJAR.jar
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------    PARA DEPENDER DE OUTRAS DEPENDECIAS BANCO DE DADOS ETC----------------------------------------------------
+PODEMOS CRIAR MULTIPLOS ARQUIVOS PROPERTIES, VAMO COMEÇAR A CRIAR UM EXEPCIFICO PARA DEPLOY
+
+properties configurado
+spring.datasource.url=${DATASOURCE_URL}
+spring.datasource.username=${DATASOURCE_USERNAME}
+spring.datasource.password=${DATASOURCE_PASSWORD}
+
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.format_sql=false
+
+spring.mail.host=${MAIL_HOST}
+spring.mail.username=${MAIL_USER}
+spring.mail.password=${MAIL_PASSWORD}
+spring.mail.port=587
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=true
+
+app.security.jwt.secret=${APP_JWT_SECRET}
+
+
+criando conteiner do mysql
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0.36
+    env_file: ./env/mysql.env
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    restart: unless-stopped
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+    env_file: ./env/app.env
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql-data:
+
+
+
+  depois cria uma pasta chamada env/
+  com dois aequivos para ser lido
+  mysql.env
+  app.env
+  para leitura das variaveis de ambiente tudo mais, todas infos que precisa ser salva e configurada
+
+
+  app.env
+  SPRING_PROFILES_ACTIVE=prod
+  SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/codechella
+  SPRING_DATASOURCE_USERNAME=codechella_user
+  SPRING_DATASOURCE_PASSWORD=codechella_pwd
+  MAIL_HOST=smtp.gmail.com
+  MAIL_USER=mail_user
+  MAIL_PASSWORD=mail_pwd
+  APP_JWT_SECRET=jwt_secret
+
+
+  mysql.env
+
+  MYSQL_RANDOM_ROOT_PASSWORD=true
+  MYSQL_DATABASE=codechella
+  MYSQL_USER=codechella_user
+  MYSQL_PASSWORD=codechella_pwd
+
+Subindo os containers
+Para subir a aplicação, precisamos subir esses dois containers, e quem faz isso é o Docker Compose. Vamos fazer isso pelo terminal.
+
+vamos mais chamar o Docker diretamente, vamos chamar o Docker Compose. Já instalamos o Docker Compose no nosso computador, e o comando que vamos usar é:
+  docker compose up --build
+
+
+  colocar git para ignora
+  env, arquivos de salvamento do mysql

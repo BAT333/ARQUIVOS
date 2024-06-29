@@ -1,0 +1,4 @@
+PRIMEIRO INSTALAR IMAGEM DO MYSQL
+docker pull mysql
+depois porta que vc vai usar no mysql, nome que vc vai dar para conteneir, senha do mysql
+docker run -p 3306:3306 --name myTest -e MYSQL_ROOT_PASSWORD = root -d mysql
