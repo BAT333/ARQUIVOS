@@ -1,0 +1,159 @@
+Passos para Juntar Micro Serviços usando Submódulos Git
+1. Criar um Repositório Principal
+Criar um novo repositório no GitHub:
+
+Vá para GitHub.
+Crie um novo repositório chamado real-estate-management-system.
+Clonar o Repositório Principal:
+
+bash
+Copiar código
+git clone https://github.com/SEU_USUARIO/real-estate-management-system.git
+cd real-estate-management-system
+
+
+2. Adicionar Micro Serviços como Submódulos
+Para cada micro serviço, adicione-o como um submódulo ao repositório principal.
+
+Adicionar Client Service como Submódulo
+bash
+Copiar código
+git submodule add https://github.com/SEU_USUARIO/client-service.git client-service
+
+
+3. Commit e Push das Mudanças
+Depois de adicionar todos os submódulos, commit e push as mudanças para o repositório principal.
+
+bash
+Copiar código
+git add .
+git commit -m "Added microservices as submodules"
+git push origin main
+
+
+4. Atualizar Submódulos
+Quando alguém clonar o repositório principal, ele precisará inicializar e atualizar os submódulos:
+
+bash
+Copiar código
+git clone https://github.com/SEU_USUARIO/real-estate-management-system.git
+cd real-estate-management-system
+git submodule init
+git submodule update
+real-estate-management-system
+├── client-service
+├── property-service
+├── search-service
+└── auth-service
+
+
+Gerenciamento de Submódulos
+Para atualizar um submódulo:
+
+bash
+Copiar código
+cd client-service
+git pull origin main
+cd ..
+git add client-service
+git commit -m "Updated client-service submodule"
+git push origin main
+
+
+Para adicionar um novo submódulo:
+
+bash
+Copiar código
+git submodule add https://github.com/SEU_USUARIO/novo-micro-servico.git novo-micro-servico
+git add .
+git commit -m "Added novo-micro-servico as submodule"
+git push origin main
+
+
+
+
+
+
+Clonando um Submódulo Específico
+Navegue para o Diretório onde você Deseja Clonar o Submódulo:
+
+bash
+Copiar código
+cd /path/to/your/desired/directory
+Clone o Submódulo Diretamente:
+
+bash
+Copiar código
+git clone https://github.com/SEU_USUARIO/NOME_DO_SUBMODULO.git
+Por exemplo, se você deseja clonar o submódulo client-service, você faria:
+
+bash
+Copiar código
+git clone https://github.com/SEU_USUARIO/client-service.git
+Trabalhando com Submódulos no Repositório Principal
+Se você já clonou o repositório principal e deseja inicializar e atualizar os submódulos, siga estes passos:
+
+Clone o Repositório Principal:
+
+bash
+Copiar código
+git clone https://github.com/SEU_USUARIO/real-estate-management-system.git
+cd real-estate-management-system
+Inicialize e Atualize os Submódulos:
+
+bash
+Copiar código
+git submodule init
+git submodule update
+Clonando o Repositório Principal com Submódulos
+Você pode clonar o repositório principal junto com todos os seus submódulos em um único comando:
+
+bash
+Copiar código
+git clone --recurse-submodules https://github.com/SEU_USUARIO/real-estate-management-system.git
+Atualizando Submódulos após Clonagem
+Se você já clonou o repositório principal sem os submódulos e deseja atualizar os submódulos posteriormente, use:
+
+bash
+Copiar código
+git submodule update --init --recursive
+Verificação de Submódulos
+Para verificar quais submódulos estão presentes e seu estado:
+
+bash
+Copiar código
+git submodule status
+Resumo dos Passos
+Clonar um submódulo específico:
+
+bash
+Copiar código
+git clone https://github.com/SEU_USUARIO/NOME_DO_SUBMODULO.git
+Clonar o repositório principal e inicializar submódulos:
+
+bash
+Copiar código
+git clone https://github.com/SEU_USUARIO/real-estate-management-system.git
+cd real-estate-management-system
+git submodule init
+git submodule update
+Clonar o repositório principal com submódulos:
+
+bash
+Copiar código
+git clone --recurse-submodules https://github.com/SEU_USUARIO/real-estate-management-system.git
+Atualizar submódulos após a clonagem:
+
+bash
+Copiar código
+git submodule update --init --recursive
+Esses comandos permitem que você gerencie submódulos de forma eficiente, seja clonando apenas um submódulo específico ou trabalhando com todos os submódulos de um repositório principal.
+
+
+
+
+
+
+
+
+
