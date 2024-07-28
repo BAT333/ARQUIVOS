@@ -150,6 +150,85 @@ git submodule update --init --recursive
 Esses comandos permitem que você gerencie submódulos de forma eficiente, seja clonando apenas um submódulo específico ou trabalhando com todos os submódulos de um repositório principal.
 
 
+Quando você clona um projeto que contém submódulos, os submódulos são repositórios Git separados. Portanto, ao fazer commit e push no repositório principal, isso não inclui automaticamente as mudanças nos submódulos. Você precisa fazer commit e push separadamente em cada submódulo e no repositório principal. Aqui está o processo detalhado para garantir que todas as suas alterações sejam empurradas para os repositórios corretos:
+
+Passos para Commit e Push em Submódulos
+Navegar para o Diretório do Submódulo:
+
+Vá até o diretório do submódulo onde você fez alterações.
+
+bash
+Copiar código
+cd path/to/submodule
+Fazer Commit e Push das Alterações no Submódulo:
+
+Adicione, comite e faça push das alterações no submódulo.
+
+bash
+Copiar código
+git add .
+git commit -m "Descrição das alterações no submódulo"
+git push origin main
+Voltar para o Diretório do Repositório Principal:
+
+Depois de empurrar as mudanças do submódulo, volte para o diretório do repositório principal.
+
+bash
+Copiar código
+cd ../../
+Adicionar e Commitar a Atualização do Submódulo no Repositório Principal:
+
+Adicione a atualização do submódulo no repositório principal.
+
+bash
+Copiar código
+git add path/to/submodule
+git commit -m "Atualizando referência do submódulo"
+Fazer Push das Alterações no Repositório Principal:
+
+Faça push das alterações no repositório principal.
+
+bash
+Copiar código
+git push origin main
+Exemplo Completo
+Suponha que você tenha um submódulo chamado client-service e você fez alterações nele:
+
+Navegar para o Diretório do Submódulo:
+
+bash
+Copiar código
+cd real-estate-management-system/client-service
+Fazer Commit e Push das Alterações no Submódulo:
+
+bash
+Copiar código
+git add .
+git commit -m "Corrigindo bug no client-service"
+git push origin main
+Voltar para o Diretório do Repositório Principal:
+
+bash
+Copiar código
+cd ../..
+Adicionar e Commitar a Atualização do Submódulo no Repositório Principal:
+
+bash
+Copiar código
+git add client-service
+git commit -m "Atualizando referência do submódulo client-service"
+Fazer Push das Alterações no Repositório Principal:
+
+bash
+Copiar código
+git push origin main
+Verificando se Tudo Está Atualizado
+Para garantir que todas as suas mudanças foram corretamente empurradas, você pode verificar o estado dos submódulos e do repositório principal:
+
+bash
+Copiar código
+git submodule status
+Isso mostrará a referência atual de cada submódulo e você pode verificar se está na versão correta.
 
 
 
