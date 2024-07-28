@@ -1,0 +1,47 @@
+bin\kafkaserverstart.bat config\server.properties para iniciar wind
+
+
+bin/kafka-server-start.sh config/server.properties linux
+
+kafka
+criar
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+iniciar
+
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+
+
+-----------producer
+criar
+
+.\bin\windows\kafka-topics.bat --create --topic myFirstTopic --bootstrap-server localhost:9092
+iniciar
+
+.\bin\windows\kafka-console-producer.bat --topic myFirstTopic --bootstrap-server localhost:9092
+--------------consumer
+PS C:\kafka> .\bin\windows\kafka-console-consumer.bat --topic myFirstTopic --from-beginning --bootstrap-server localhost:9092
+
+
+
+
+bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic LOJA_NOVO_PEDIDO 
+
+bin/kafka-topics.sh --list --bootstrap-server localhost:9082
+
+bin/kafka-console-producer.sh -- broker-list localhost:9092 LOJA_NOVO_PEDIDO
+
+bin/kafka-console-producer.sh -- broker-list localhost:9092 LOJA_NOVO_PEDIDO
+pedido0, 550
+
+bin/kafka-console-producer.sh -- broker-list localhost:9092 LOJA_NOVO_PEDIDO
+pedido0, 550
+pedido1, 330
+pedido2, 67213
+
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic LOJA_NOVO_PEDIDO
+
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic LOJA_NOVO_PEDIDO --from-beginning
+
+
+
