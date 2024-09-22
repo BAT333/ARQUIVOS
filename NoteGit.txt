@@ -232,7 +232,117 @@ Isso mostrará a referência atual de cada submódulo e você pode verificar se 
 
 
 
+------------------------------------------excluir 
+Remover o submódulo do arquivo .gitmodules: No diretório raiz do seu projeto, abra o arquivo .gitmodules e remova a seção referente ao submódulo que você deseja excluir. Exemplo:
 
+bash
+Copiar código
+[submodule "caminho/do/submodulo"]
+    path = caminho/do/submodulo
+    url = URL/do/submodulo
+Remover a referência ao submódulo no Git: Remova a entrada do submódulo do arquivo de índice do Git com o comando:
+
+bash
+Copiar código
+git rm --cached caminho/do/submodulo
+Remover o diretório do submódulo: Depois de remover o submódulo do índice, exclua o diretório dele fisicamente:
+
+bash
+Copiar código
+rm -rf caminho/do/submodulo
+Remover a referência no diretório .git: Para garantir que as referências ao submódulo foram completamente removidas, exclua os dados armazenados no diretório .git/modules:
+
+bash
+Copiar código
+rm -rf .git/modules/caminho/do/submodulo
+Commit das alterações: Por fim, faça o commit das alterações removendo o submódulo do seu repositório:
+
+bash
+Copiar código
+git commit -m "Remover submódulo caminho/do/submodulo"
+
+
+
+Remover o submódulo do arquivo .gitmodules: No diretório C:\Users\rafae\real-estate-management-system, abra o arquivo .gitmodules e remova a seção relacionada ao submódulo sale-service.
+
+Remover o submódulo do Git: Navegue até o diretório do projeto e execute o comando:
+
+bash
+Copiar código
+git rm --cached sale-service
+Excluir o diretório do submódulo: Remova o diretório do submódulo:
+
+bash
+Copiar código
+rm -rf sale-service
+Excluir as referências no .git: Remova qualquer referência do submódulo dentro de .git/modules:
+
+bash
+Copiar código
+rm -rf .git/modules/sale-service
+Fazer o commit das alterações:
+
+bash
+Copiar código
+git commit -m "Remover submódulo sale-service"
+
+
+
+
+Remover o submódulo do Git: No diretório raiz do seu projeto (C:\Users\rafae\real-estate-management-system), execute o seguinte comando para remover o submódulo do índice do Git:
+
+bash
+Copiar código
+git rm --cached sale-service
+Excluir o diretório do submódulo: Em seguida, remova fisicamente o diretório sale-service:
+
+bash
+Copiar código
+rm -rf sale-service
+Remover as referências do .git: Para garantir que não restem vestígios no diretório .git, remova as referências ao submódulo:
+
+bash
+Copiar código
+rm -rf .git/modules/sale-service
+Commit das alterações: Após realizar essas mudanças, faça o commit para salvar a remoção do submódulo:
+
+bash
+Copiar código
+git commit -m "Remover submódulo sale-service"
+Push para o repositório remoto (se necessário): Se o repositório estiver conectado a um repositório remoto, faça o push das alterações:
+
+bash
+Copiar código
+git push origin branch
+Substitua branch pelo nome da sua branch atual, por exemplo, main ou master.
+
+
+Remover o submódulo: No PowerShell, navegue até o diretório raiz do seu projeto (C:\Users\rafae\real-estate-management-system) e execute o seguinte comando para remover o diretório sale-service:
+
+bash
+Copiar código
+Remove-Item -Recurse -Force sale-service
+Remover as referências do .git: Para garantir que as referências ao submódulo também sejam removidas do Git, execute:
+
+bash
+Copiar código
+Remove-Item -Recurse -Force .git\modules\sale-service
+Verifique o status e faça o commit: Após remover o diretório e as referências, você pode verificar o status com:
+
+bash
+Copiar código
+git status
+Em seguida, faça o commit das alterações:
+
+bash
+Copiar código
+git commit -m "Remover submódulo sale-service"
+Push para o repositório remoto (se aplicável): Se o repositório estiver conectado a um repositório remoto, faça o push:
+
+bash
+Copiar código
+git push origin branch
+Substitua branch pelo nome da sua branch, como main ou master.
 
 
 
